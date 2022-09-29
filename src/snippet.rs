@@ -136,6 +136,26 @@ impl SnippetManager {
             self.snippets.push(snippet);
         }
 
+        // スペース区切りの標準出力
+        for i in 1..=cout_max_len {
+            let name = format!("cout_{}_with_spaces", i);
+            let prefix = format!("cs{}", if i > 1 { i.to_string() } else { String::new() });
+            let spacers = gen_spacers(1, i);
+            let cout_statement = format!(
+                r#"cout << {}{} << \"\\n\";"#,
+                spacers.iter().nth(0).unwrap(),
+                spacers
+                    .iter()
+                    .skip(1)
+                    .map(|s| format!(r#" << \" \" << {}"#, s))
+                    .collect::<Vec<String>>()
+                    .join("")
+            );
+            let snippet = Snippet::new(name, prefix, vec![cout_statement]);
+
+            self.snippets.push(snippet);
+        }
+
         // yesno
         self.snippets.push(Snippet::new(
             "yesno",
