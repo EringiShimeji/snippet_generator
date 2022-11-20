@@ -10,7 +10,8 @@ fn main() {
     m.gen(20, 20);
     let output = m.json();
 
-    fs::create_dir("./cpp/.vscode").ok();
+    fs::create_dir("./cpp").unwrap();
+    fs::create_dir("./cpp/.vscode").unwrap();
     let mut f = File::create("./cpp/.vscode/cpp.code-snippets").unwrap();
 
     f.write_all(output.as_bytes()).unwrap();
